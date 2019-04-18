@@ -1,0 +1,46 @@
+version: '3'
+
+networks:
+  ggb-network:
+
+services:
+  # rcssserver:
+  #   tty: true
+  #   container_name: rcssserver
+  #   image: orangefoil/rcssserver
+  #   networks:
+  #     - ggb-network
+  #   logging:
+  #     options:
+  #      max-size: 50m
+
+  udp-echo:
+    tty: true
+    container_name: udp-echo
+    image: golang:latest
+    working_dir: /opt/go/src/github.com/samuelvenzi/rcss-ggb/udp-echo
+    command: "go run main.go"
+    volumes:
+      - ./udp-echo:/opt/go/src/github.com/samuelvenzi/rcss-ggb/udp-echo
+    networks:
+      - ggb-network
+    logging:
+      options:
+       max-size: 50m
+
+  ggb-team:
+    tty: true
+    container_name: ggb-team
+    image: golang:latest
+    working_dir: /opt/go/src/github.com/samuelvenzi/rcss-ggb/ggb-team
+    command: "go run main.go"
+    volumes:
+      - ./ggb-team:/opt/go/src/github.com/samuelvenzi/rcss-ggb/ggb-team
+    networks:
+      - ggb-network
+    logging:
+      options:
+       max-size: 50m
+    depends_on:
+      # - rcssserver
+      - udp-echo
