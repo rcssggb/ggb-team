@@ -3,7 +3,7 @@ ARG VERSION=15.5.0
 WORKDIR /root
 
 RUN apt update && \
-    apt -y install autoconf bison clang flex libboost-dev libboost-all-dev libc6-dev make wget
+    apt -y install autoconf bison clang flex libboost-dev libboost-all-dev libc6-dev make wget g++
 
 RUN wget https://github.com/rcsoccersim/rcssserver/archive/rcssserver-$VERSION.tar.gz && \
     tar xfz rcssserver-$VERSION.tar.gz && \
@@ -14,31 +14,10 @@ RUN wget https://github.com/rcsoccersim/rcssserver/archive/rcssserver-$VERSION.t
     make install && \
     ldconfig
 
-# FROM ubuntu:18.04
-
-RUN wget https://osdn.net/dl/rctools/librcsc-4.1.0.tar.gz && \
-    tar xvzf librcsc-4.1.0.tar.gz && \
-    cd librcsc-4.1.0 && \
-    ./configure && \
-    make && \
-    make install 
-
-COPY sample-teams/agent2d-3.1.1 /root/agent2d-3.1.1
-
-RUN apt-get install gcc 
-
-RUN cd agent2d-3.1.1 \
-    ./configure && \
-    ls && \
-    make 
-
+FROM ubuntu:18.04
 
 COPY --from=build /usr/local/lib /usr/local/lib
 COPY --from=build /usr/local/bin /usr/local/bin
-
-RUN ldconfig && \
-    apt update && \
-    apt install -y libboost-filesystem1.65.1 libboost-system1.65.1
 
 EXPOSE 6000/udp
 CMD ["/usr/local/bin/rcssserver"]
