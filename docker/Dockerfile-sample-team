@@ -14,9 +14,8 @@ COPY sample-teams/agent2d-3.1.1 /root/agent2d-3.1.1
 
 RUN apt-get install gcc 
 
-RUN cd agent2d-3.1.1  && \
+RUN cd root/agent2d-3.1.1  && \
     ./configure && \
-    ls && \
     make && \
     make install
 
