@@ -9,7 +9,7 @@ import (
 
 func main() {
 	time.Sleep(5 * time.Second)
-	hostName := "udp-echo"
+	hostName := "rcssserver"
 	portNum := "6000"
 
 	service := hostName + ":" + portNum

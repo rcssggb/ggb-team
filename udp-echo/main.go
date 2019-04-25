@@ -3,36 +3,38 @@ package main
 import (
 	"fmt"
 	"net"
+	"os"
 )
 
-func echoResponse(conn *net.UDPConn, addr *net.UDPAddr, msg string) {
-	_, err := conn.WriteToUDP([]byte(msg), addr)
+// CheckError checks for errors
+func CheckError(err error) {
 	if err != nil {
-		fmt.Printf("Couldn't send response %v\n", err)
+		fmt.Println("Error: ", err)
+		os.Exit(0)
 	}
 }
 
 func main() {
-	port := 6000
-	p := make([]byte, 2048)
-	addr := net.UDPAddr{
-		Port: port,
-		IP:   net.ParseIP("127.0.0.1"),
-	}
-	server, err := net.ListenUDP("udp", &addr)
-	if err != nil {
-		fmt.Printf("Some error %v\n", err)
-		return
-	}
-	fmt.Printf("Listening on port %d\n", port)
+	/* Lets prepare a address at any address at port 10001*/
+	ServerAddr, err := net.ResolveUDPAddr("udp", ":6174")
+	CheckError(err)
+	fmt.Println("listening on :6174")
+
+	/* Now listen at selected port */
+	ServerConn, err := net.ListenUDP("udp", ServerAddr)
+	CheckError(err)
+	defer ServerConn.Close()
+
+	buf := make([]byte, 1024)
+
 	for {
-		_, remoteaddr, err := server.ReadFromUDP(p)
-		msg := string(p)
-		fmt.Printf("Read a message from %v %s \n", remoteaddr, p)
+		n, addr, err := ServerConn.ReadFromUDP(buf)
+		fmt.Printf("received: %s from: %s\n", string(buf[0:n]), addr)
+
 		if err != nil {
-			fmt.Printf("Some error  %v", err)
-			continue
+			fmt.Println("error: ", err)
 		}
-		go echoResponse(server, remoteaddr, msg)
+
+		ServerConn.WriteTo(buf[0:n], addr)
 	}
 }

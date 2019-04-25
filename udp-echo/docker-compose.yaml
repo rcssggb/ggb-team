@@ -1,0 +1,22 @@
+version: '3'
+
+networks:
+  ggb-network:
+    external: true
+
+services:
+  udp-echo:
+    tty: true
+    container_name: udp-echo
+    image: golang:latest
+    working_dir: /opt/go/src/github.com/samuelvenzi/rcss-ggb/udp-echo
+    command: "go run main.go"
+    volumes:
+      - ./udp-echo:/opt/go/src/github.com/samuelvenzi/rcss-ggb/udp-echo
+    networks:
+      - ggb-network
+    ports:
+      - 6000:6000/udp
+    logging:
+      options:
+       max-size: 50m
