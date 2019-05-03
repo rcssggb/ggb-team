@@ -3,11 +3,9 @@ package main
 import (
 	"log"
 	"net"
-	"time"
 )
 
 func main() {
-	time.Sleep(2 * time.Second)
 	hostName := "rcssserver"
 	portNum := "6000"
 
@@ -18,16 +16,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	LocalAddr, err := net.ResolveUDPAddr("udp", ":5347")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	conn, err := net.ListenUDP("udp", LocalAddr)
-
-	// note : you can use net.ResolveUDPAddr for LocalAddr as well
-	//        for this tutorial simplicity sake, we will just use nil
-
+	conn, err := net.ListenUDP("udp", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,12 +38,11 @@ func main() {
 	}
 
 	// receive message from server
-	// conn.SetReadDeadline(time.Now().Add(5 * time.Second))
 	n, addr, err := conn.ReadFromUDP(response)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	log.Println("UDP Server: ", addr)
-	log.Println("Received", n, "bytes from UDP server: ", string(response))
+	log.Println("UDP Server:", addr)
+	log.Println("Received", n, "bytes from UDP server:", string(response))
 }
