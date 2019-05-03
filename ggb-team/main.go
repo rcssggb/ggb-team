@@ -1,25 +1,29 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"time"
 )
 
 func main() {
-	time.Sleep(5 * time.Second)
+	time.Sleep(2 * time.Second)
 	hostName := "rcssserver"
 	portNum := "6000"
 
 	service := hostName + ":" + portNum
 
 	RemoteAddr, err := net.ResolveUDPAddr("udp", service)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	//LocalAddr := nil
-	// see https://golang.org/pkg/net/#DialUDP
+	LocalAddr, err := net.ResolveUDPAddr("udp", ":5347")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	conn, err := net.DialUDP("udp", nil, RemoteAddr)
+	conn, err := net.ListenUDP("udp", LocalAddr)
 
 	// note : you can use net.ResolveUDPAddr for LocalAddr as well
 	//        for this tutorial simplicity sake, we will just use nil
@@ -29,7 +33,7 @@ func main() {
 	}
 
 	log.Printf("Established connection to %s \n", service)
-	log.Printf("Remote UDP address : %s \n", conn.RemoteAddr().String())
+	log.Printf("Remote UDP address : %s \n", RemoteAddr.String())
 	log.Printf("Local UDP client address : %s \n", conn.LocalAddr().String())
 
 	defer conn.Close()
@@ -38,21 +42,19 @@ func main() {
 	message := []byte("(init TeamGGB)\n")
 	response := make([]byte, 1024)
 
-	_, err = conn.Write(message)
+	_, err = conn.WriteToUDP(message, RemoteAddr)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	// receive message from server
-	conn.SetReadDeadline(time.Now().Add(5 * time.Second))
+	// conn.SetReadDeadline(time.Now().Add(5 * time.Second))
 	n, addr, err := conn.ReadFromUDP(response)
-	// n, err := conn.Read(response)
-
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fmt.Println("UDP Server: ", addr)
-	fmt.Println("Received", n, "bytes from UDP server: ", string(response))
+	log.Println("UDP Server: ", addr)
+	log.Println("Received", n, "bytes from UDP server: ", string(response))
 }
