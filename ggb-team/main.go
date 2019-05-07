@@ -1,48 +1,31 @@
 package main
 
 import (
+	"flag"
 	"log"
-	"net"
+
+	"github.com/samuelvenzi/rcss-ggb/ggb-team/player"
 )
 
+const logPath = "/logs/ggb-team.log"
+
+var verbose = flag.Bool("verbose", true, "print info level logs to stdout")
+
 func main() {
+	log.SetFlags(log.Ltime | log.Lshortfile)
+
 	hostName := "rcssserver"
-	portNum := "6000"
 
-	service := hostName + ":" + portNum
-
-	RemoteAddr, err := net.ResolveUDPAddr("udp", service)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	conn, err := net.ListenUDP("udp", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Printf("Established connection to %s \n", service)
-	log.Printf("Remote UDP address : %s \n", RemoteAddr.String())
-	log.Printf("Local UDP client address : %s \n", conn.LocalAddr().String())
-
-	defer conn.Close()
-
-	// write a message to server
-	message := []byte("(init TeamGGB)\n")
-	response := make([]byte, 1024)
-
-	_, err = conn.WriteToUDP(message, RemoteAddr)
-
+	player, err := player.NewPlayer("TeamGGB", hostName)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	// receive message from server
-	n, addr, err := conn.ReadFromUDP(response)
-	if err != nil {
-		log.Fatalln(err)
+	for {
+		err = player.SenseBody()
+		if err != nil {
+			log.Fatalln(err)
+		}
+		// time.Sleep(50 * time.Millisecond)
 	}
-
-	log.Println("UDP Server:", addr)
-	log.Println("Received", n, "bytes from UDP server:", string(response))
 }

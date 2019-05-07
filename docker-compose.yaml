@@ -8,7 +8,7 @@ services:
   rcssserver:
     tty: true
     container_name: rcssserver
-    image: orangefoil/rcssserver
+    image: rcssggb/rcssserver:latest
     networks:
       - ggb-network
     ports:
@@ -21,10 +21,10 @@ services:
     tty: true
     container_name: ggb-team
     image: golang:latest
-    working_dir: /opt/go/src/github.com/samuelvenzi/rcss-ggb/ggb-team
+    working_dir: /go/src/github.com/samuelvenzi/rcss-ggb/ggb-team
     command: "go run main.go"
     volumes:
-      - ./ggb-team:/opt/go/src/github.com/samuelvenzi/rcss-ggb/ggb-team
+      - ./ggb-team:/go/src/github.com/samuelvenzi/rcss-ggb/ggb-team
     networks:
       - ggb-network
     logging:
