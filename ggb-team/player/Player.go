@@ -2,11 +2,8 @@ package player
 
 import (
 	"fmt"
+	"log"
 	"net"
-	"strconv"
-	"time"
-
-	"github.com/samuelvenzi/rcss-ggb/ggb-team/rcssparser"
 )
 
 // Player ...
@@ -19,7 +16,7 @@ type Player struct {
 
 // IPlayer ...
 type IPlayer interface {
-	SenseBody() error
+	Listen()
 }
 
 // NewPlayer is the constructor for the Player struct
@@ -30,56 +27,24 @@ func NewPlayer(teamName, serverIP string) (IPlayer, error) {
 	if err != nil {
 		return nil, err
 	}
-	tmpConn, err := net.ListenUDP("udp", nil)
-	if err != nil {
-		return nil, err
-	}
-
-	// Send connect message
-	cmdMessage := fmt.Sprintf("(init %s)", teamName)
-	_, err = tmpConn.WriteToUDP([]byte(cmdMessage), serverAddr)
-	if err != nil {
-		return nil, err
-	}
-
-	// Receive response
-	response := make([]byte, 1024)
-	tmpConn.SetReadDeadline(time.Now().Add(1 * time.Second))
-	_, addr, err := tmpConn.ReadFromUDP(response)
-	if err != nil {
-		return nil, err
-	}
-	tmpConn.Close()
-
-	// Parse response
-	initResponse, err := rcssparser.ParseInit(response)
-	if err != nil {
-		return nil, err
-	}
-
-	// Dial to dedicated player port
-	playerPort := addr.Port
-	playerHost := serverIP + ":" + strconv.Itoa(playerPort)
-	playerAddr, err := net.ResolveUDPAddr("udp", playerHost)
+	conn, err := net.ListenUDP("udp", nil)
 	if err != nil {
 		return nil, err
 	}
 
 	// Instantiate new Player struct
 	newPlayer := &Player{}
-
-	// Init newPlayer struct
-	conn, err := net.DialUDP("udp", nil, playerAddr)
 	newPlayer.conn = conn
 
-	// (init Side Unum PlayMode)
-	newPlayer.teamSide = initResponse[1]
-	shirtNum, err := strconv.Atoi(initResponse[2])
+	go newPlayer.Listen()
+
+	// Send connect message
+	log.Printf("Connecting to %s as a player for %s\n", serverHost, teamName)
+	cmdMessage := fmt.Sprintf("(init %s (version 9))", teamName)
+	_, err = conn.WriteToUDP([]byte(cmdMessage), serverAddr)
 	if err != nil {
 		return nil, err
 	}
-	newPlayer.shirtNum = shirtNum
-	newPlayer.playMode = initResponse[3]
 
 	return newPlayer, nil
 }

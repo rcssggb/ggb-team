@@ -2,7 +2,7 @@ package rcssparser
 
 import "fmt"
 
-// ParseInit parses
+// ParseInit parses (init Side Unum PlayMode)
 func ParseInit(response []byte) ([]string, error) {
 	switch string(response) {
 	case "(error no_more_team_or_player)":
