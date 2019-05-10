@@ -8,10 +8,11 @@ import (
 
 // Player ...
 type Player struct {
-	conn     *net.UDPConn
-	teamSide string
-	shirtNum int
-	playMode string
+	conn       *net.UDPConn
+	teamSide   string
+	shirtNum   int
+	playMode   string
+	cmdChannel chan Message
 }
 
 // IPlayer ...
@@ -35,8 +36,10 @@ func NewPlayer(teamName, serverIP string) (IPlayer, error) {
 	// Instantiate new Player struct
 	newPlayer := &Player{}
 	newPlayer.conn = conn
+	newPlayer.cmdChannel = make(chan Message, 32)
 
 	go newPlayer.Listen()
+	go newPlayer.Parse()
 
 	// Send connect message
 	log.Printf("Connecting to %s as a player for %s\n", serverHost, teamName)

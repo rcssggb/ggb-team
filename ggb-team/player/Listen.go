@@ -5,19 +5,22 @@ import (
 	"time"
 )
 
-// Listen continuously receives and parses server messages and updates the
-// Player object accordingly
+// Listen continuously receives and posts server messages to cmdChannel
 func (p *Player) Listen() {
 	response := make([]byte, 8192)
 
 	for {
 		p.conn.SetReadDeadline(time.Now().Add(1 * time.Second))
 		_, _, err := p.conn.ReadFromUDP(response)
+		now := time.Now()
 		if err != nil {
 			log.Println(err)
 			continue
 		}
 
-		log.Println(string(response))
+		p.cmdChannel <- Message{
+			timestamp: now,
+			data:      response,
+		}
 	}
 }
