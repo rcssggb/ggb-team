@@ -17,6 +17,23 @@ services:
       options:
        max-size: 50m
 
+  rcssmonitor:
+    tty: true
+    container_name: rcssmonitor
+    image: rcssggb/rcssmonitor:latest
+    networks:
+      - ggb-network
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    logging:
+      options:
+       max-size: 50m
+    depends_on:
+      - rcssserver
+
   ggb-team:
     tty: true
     container_name: ggb-team
