@@ -7,7 +7,7 @@ Repo for RoboCup Soccer 2D Simulation League project.
 #### Server
 
 - [x] Run RCSS Server in a docker container
-- [ ] Run RCSS Monitor in a docker container and expose its window
+- [x] Run RCSS Monitor in a docker container and expose its window
 - [ ] Include publicly available teams as examples
 
 #### Team
