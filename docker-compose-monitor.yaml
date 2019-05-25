@@ -1,0 +1,22 @@
+version: '3'
+
+networks:
+  ggb-network:
+    external: true
+
+services:
+  rcssmonitor:
+    tty: true
+    container_name: rcssmonitor
+    image: rcssmonitor:test
+    networks:
+      - ggb-network
+    ports:
+      - 6000:6000/udp
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    logging:
+      options:
+       max-size: 50m
