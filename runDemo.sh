@@ -12,6 +12,6 @@ fi
 
 bash ./x11expose.sh
 
-docker-compose up
+docker-compose -f docker-compose-demo.yaml up
 
 bash ./x11disable.sh

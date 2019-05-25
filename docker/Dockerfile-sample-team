@@ -8,11 +8,11 @@ RUN wget https://osdn.net/dl/rctools/librcsc-4.1.0.tar.gz && \
     cd librcsc-4.1.0 && \
     ./configure && \
     make && \
-    make install 
+    make install
 
 COPY sample-teams/agent2d-3.1.1 /root/agent2d-3.1.1
 
-RUN apt-get install gcc 
+RUN apt-get install gcc
 
 RUN cd root/agent2d-3.1.1  && \
     ./configure && \
@@ -21,8 +21,8 @@ RUN cd root/agent2d-3.1.1  && \
 
 RUN ldconfig && \
     apt update && \
-    apt install -y libboost-filesystem1.65.1 libboost-system1.65.1
+    apt install -y libboost-filesystem1.65.1 libboost-system1.65.1 iputils-ping
 
-EXPOSE 6000/udp
+WORKDIR /root/agent2d-3.1.1/src/
 
-CMD cd agent2d-3.1.1 && ./start.sh
+CMD bash -c "./start.sh -h rcssserver"

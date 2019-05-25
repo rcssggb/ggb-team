@@ -1,0 +1,61 @@
+version: '3'
+
+networks:
+  ggb-network:
+    external: true
+
+services:
+  rcssserver:
+    tty: true
+    container_name: rcssserver
+    image: rcssggb/rcssserver:latest
+    networks:
+      - ggb-network
+    ports:
+      - 6000:6000/udp
+    logging:
+      options:
+       max-size: 50m
+
+  rcssmonitor:
+    tty: true
+    container_name: rcssmonitor
+    image: rcssggb/rcssmonitor:latest
+    networks:
+      - ggb-network
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    logging:
+      options:
+       max-size: 50m
+    depends_on:
+      - rcssserver
+
+  HELIOS_A:
+    tty: true
+    container_name: HELIOS_A
+    image: sample-team:latest
+    command: bash -c "./start.sh -h rcssserver -t HELIOS_A --debug"
+    networks:
+      - ggb-network
+    logging:
+      options:
+       max-size: 50m
+    depends_on:
+      - rcssmonitor
+
+  # HELIOS_B:
+  #   tty: true
+  #   container_name: HELIOS_B
+  #   image: sample-team:latest
+  #   command: "./start.sh -h rcssserver -t HELIOS_B"
+  #   networks:
+  #     - ggb-network
+  #   logging:
+  #     options:
+  #      max-size: 50m
+  #   depends_on:
+  #     - HELIOS_A
