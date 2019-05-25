@@ -15,6 +15,7 @@ services:
       - 6000:6000/udp
     environment:
       - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
     logging:

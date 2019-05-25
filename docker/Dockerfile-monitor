@@ -16,9 +16,18 @@ RUN wget https://github.com/rcsoccersim/rcssmonitor/releases/download/rcssmonito
 
 FROM ubuntu:18.04
 
+# Copy lib files
 COPY --from=build /usr/local/lib /usr/local/lib
 COPY --from=build /usr/lib /usr/lib
 COPY --from=build /lib /lib
+
+# Copy font files
+COPY --from=build /etc/fonts /etc/fonts
+COPY --from=build /usr/include/X11/fonts /usr/include/X11/fonts
+COPY --from=build /usr/share/fonts /usr/share/fonts
+COPY --from=build /usr/local/share/fonts /usr/local/share/fonts
+
+# Copy bin files
 COPY --from=build /usr/local/bin /usr/local/bin
 
 ##########################
