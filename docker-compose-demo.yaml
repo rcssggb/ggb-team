@@ -37,8 +37,8 @@ services:
   HELIOS_A:
     tty: true
     container_name: HELIOS_A
-    image: sample-team:latest
-    command: bash -c "./start.sh -h rcssserver -t HELIOS_A --debug"
+    image: rcssggb/sample-team:HELIOS
+    command: bash -c "./start.sh -h rcssserver -t HELIOS_A ; sleep infinity"
     networks:
       - ggb-network
     logging:
@@ -47,15 +47,15 @@ services:
     depends_on:
       - rcssmonitor
 
-  # HELIOS_B:
-  #   tty: true
-  #   container_name: HELIOS_B
-  #   image: sample-team:latest
-  #   command: "./start.sh -h rcssserver -t HELIOS_B"
-  #   networks:
-  #     - ggb-network
-  #   logging:
-  #     options:
-  #      max-size: 50m
-  #   depends_on:
-  #     - HELIOS_A
+  HELIOS_B:
+    tty: true
+    container_name: HELIOS_B
+    image: rcssggb/sample-team:HELIOS
+    command: bash -c "./start.sh -h rcssserver -t HELIOS_B ; sleep infinity"
+    networks:
+      - ggb-network
+    logging:
+      options:
+       max-size: 50m
+    depends_on:
+      - rcssmonitor
