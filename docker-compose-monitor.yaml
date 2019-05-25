@@ -8,11 +8,9 @@ services:
   rcssmonitor:
     tty: true
     container_name: rcssmonitor
-    image: rcssmonitor:test
+    image: rcssggb/rcssmonitor:latest
     networks:
       - ggb-network
-    ports:
-      - 6000:6000/udp
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1

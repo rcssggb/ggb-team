@@ -15,6 +15,7 @@ RUN wget https://github.com/rcsoccersim/rcssmonitor/releases/download/rcssmonito
     make install
 
 FROM ubuntu:18.04
+WORKDIR /home/developer
 
 # Copy lib files
 COPY --from=build /usr/local/lib /usr/local/lib
@@ -29,6 +30,8 @@ COPY --from=build /usr/local/share/fonts /usr/local/share/fonts
 
 # Copy bin files
 COPY --from=build /usr/local/bin /usr/local/bin
+RUN mkdir -p /home/developer
+COPY --from=build /usr/local/bin/rcssmonitor /home/developer
 
 ##########################
 # This was basically copied from http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker/
@@ -45,4 +48,4 @@ USER developer
 ENV HOME /home/developer
 ##########################
 
-CMD bash -c '/usr/local/bin/rcssmonitor || sleep infinity'
+CMD bash -c 'rcssmonitor --server-host rcssserver || sleep infinity'
