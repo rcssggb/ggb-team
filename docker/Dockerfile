@@ -25,4 +25,4 @@ RUN ldconfig && \
     apt install -y libboost-filesystem1.65.1 libboost-system1.65.1
 
 EXPOSE 6000/udp
-CMD ["/usr/local/bin/rcssserver"]
+CMD bash -c '/usr/local/bin/rcssserver || sleep infinity'

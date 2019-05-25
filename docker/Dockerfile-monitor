@@ -1,6 +1,6 @@
 FROM ubuntu:18.04 AS build
 ARG VERSION=15.2.1
-WORKDIR /root
+WORKDIR /home/developer
 
 RUN apt update && \
     apt -y install autoconf bison clang flex libboost-dev libboost-all-dev libc6-dev make wget libqt4-dev \
@@ -17,6 +17,8 @@ RUN wget https://github.com/rcsoccersim/rcssmonitor/releases/download/rcssmonito
 FROM ubuntu:18.04
 
 COPY --from=build /usr/local/lib /usr/local/lib
+COPY --from=build /usr/lib /usr/lib
+COPY --from=build /lib /lib
 COPY --from=build /usr/local/bin /usr/local/bin
 
 ##########################
