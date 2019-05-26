@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+bash ./x11expose.sh
+
 HOST_OS=$(uname -s)
 if [ $HOST_OS == "Linux" ]; then
     export DISPLAY=${DISPLAY}
@@ -10,7 +12,6 @@ else
     exit
 fi
 
-bash ./x11expose.sh
 
 docker-compose -f docker-compose-demo.yaml up
 
