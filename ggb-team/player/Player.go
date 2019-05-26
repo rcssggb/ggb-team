@@ -45,7 +45,7 @@ func NewPlayer(teamName, serverIP string) (IPlayer, error) {
 
 	// Send connect message
 	log.Printf("Connecting to %s as a player for %s\n", serverHost, teamName)
-	cmdMessage := fmt.Sprintf("(init %s (version 9))", teamName)
+	cmdMessage := fmt.Sprintf("(init %s (version 15))", teamName)
 	_, err = conn.WriteToUDP([]byte(cmdMessage), serverAddr)
 	if err != nil {
 		return nil, err
