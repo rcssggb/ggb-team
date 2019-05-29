@@ -38,10 +38,10 @@ services:
     tty: true
     container_name: ggb-team
     image: golang:latest
-    working_dir: /go/src/github.com/samuelvenzi/rcss-ggb/ggb-team
+    working_dir: /go/src/github.com/rcssggb/ggb-team/team
     command: "go run main.go"
     volumes:
-      - ./ggb-team:/go/src/github.com/samuelvenzi/rcss-ggb/ggb-team
+      - ./team:/go/src/github.com/rcssggb/ggb-team/team
     networks:
       - ggb-network
     logging:
