@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/samuelvenzi/rcss-ggb/ggb-team/player"
+	"github.com/rcssggb/ggb-team/team/playerclient"
 )
 
 const logPath = "/logs/ggb-team.log"
@@ -17,7 +17,7 @@ func main() {
 
 	hostName := "rcssserver"
 
-	_, err := player.NewPlayer("TeamGGB", hostName)
+	_, err := playerclient.NewPlayer("TeamGGB", hostName)
 	if err != nil {
 		log.Fatalln(err)
 	}

@@ -1,4 +1,4 @@
-package player
+package playerclient
 
 // MessageType is the type for message type constants
 type MessageType byte
