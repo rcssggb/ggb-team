@@ -14,13 +14,29 @@ func (m Message) String() string {
 }
 
 // Type parses and returns the MessageType for the message
-func (m Message) Type() MessageType {
+func (m Message) Type() (mType MessageType) {
 	switch rune(m.data[1]) {
 	case 'i': // ( i nit ...
-		return InitMsg
+		mType = InitMsg
+	case 's': // (s
+		switch rune(m.data[3]) {
+		case 'e':
+			switch rune(m.data[4]) {
+			case ' ': // (s e e ' '
+				mType = SightMsg
+			}
+		case 'n': // (s e n se_body ...
+			mType = BodyMsg
+		}
 	case 'e': // ( e rror ...
-		return ErrorMsg
+		mType = ErrorMsg
+	case 'p': // ( p layer ...
+		switch rune(m.data[8]) {
+		case 't': // (player- t ype
+			mType = PlayerTypeMsg
+		}
 	default:
-		return DisabledMsg
+		mType = DisabledMsg
 	}
+	return mType
 }

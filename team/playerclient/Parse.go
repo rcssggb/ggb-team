@@ -16,6 +16,12 @@ func (p *Player) Parse() {
 			p.parseInit(m)
 		case ErrorMsg:
 			p.parseError(m)
+		case SightMsg:
+			p.parseSight(m)
+		case BodyMsg:
+			p.parseBody(m)
+		case PlayerTypeMsg:
+			p.parsePlayerType(m)
 		case DisabledMsg:
 			if len(m.data) > 64 {
 				fmt.Printf("Ignoring %s...\n", string(m.data[0:64]))
@@ -45,6 +51,24 @@ func (p *Player) parseInit(m Message) error {
 	p.shirtNum = unum
 	p.playMode = playMode
 
+	return nil
+}
+
+// parseSight parses (see 0 ((f r t) 55.7 3) ...
+func (p *Player) parseSight(m Message) error {
+	// TODO: implement sight parser
+	return nil
+}
+
+// parseBody parses (sense_body 0 (view_mode high normal) ...
+func (p *Player) parseBody(m Message) error {
+	// TODO: implement body parser
+	return nil
+}
+
+// parsePlayerType parses (player_type (id 17)(player_speed_max ...
+func (p *Player) parsePlayerType(m Message) error {
+	// TODO: implement player type parser
 	return nil
 }
 

@@ -12,4 +12,13 @@ const (
 
 	// InitMsg is the type for the init message received when connecting
 	InitMsg
+
+	// SightMsg is the type for visual sensor messages
+	SightMsg
+
+	// BodyMsg is the type for body sensor messages
+	BodyMsg
+
+	// PlayerTypeMsg is the type for heterogenous player message
+	PlayerTypeMsg
 )
