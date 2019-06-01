@@ -21,4 +21,7 @@ const (
 
 	// PlayerTypeMsg is the type for heterogenous player message
 	PlayerTypeMsg
+
+	// PlayerParamMsg is the type for player parameters message
+	PlayerParamMsg
 )

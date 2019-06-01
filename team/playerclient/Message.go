@@ -34,6 +34,8 @@ func (m Message) Type() (mType MessageType) {
 		switch rune(m.data[8]) {
 		case 't': // (player- t ype
 			mType = PlayerTypeMsg
+		case 'p': // (player- p aram
+			mType = PlayerParamMsg
 		}
 	default:
 		mType = DisabledMsg
