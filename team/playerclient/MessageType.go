@@ -4,8 +4,8 @@ package playerclient
 type MessageType byte
 
 const (
-	// DisabledMsg is the type for all unhandled packets
-	DisabledMsg MessageType = iota + 0
+	// UnsupportedMsg is the type for all unhandled packets
+	UnsupportedMsg MessageType = iota + 0
 
 	// ErrorMsg is the type for all error messages received
 	ErrorMsg

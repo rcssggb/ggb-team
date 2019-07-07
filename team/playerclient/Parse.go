@@ -3,26 +3,26 @@ package playerclient
 import (
 	"fmt"
 	"log"
-	"time"
 )
 
 // Parse continuously receives messages from cmdChannel and parses them to update the player object
 func (p *Player) Parse() {
 	var m Message
+	var err error
 	for {
 		m = <-p.cmdChannel
 		switch m.Type() {
 		case InitMsg:
-			p.parseInit(m)
+			err = p.parseInit(m)
 		case ErrorMsg:
-			p.parseError(m)
+			err = p.parseError(m)
 		case SightMsg:
-			p.parseSight(m)
+			err = p.parseSight(m)
 		case BodyMsg:
-			p.parseBody(m)
+			err = p.parseBody(m)
 		case PlayerTypeMsg:
-			p.parsePlayerType(m)
-		case DisabledMsg:
+			err = p.parsePlayerType(m)
+		case UnsupportedMsg:
 			if len(m.data) > 64 {
 				fmt.Printf("Ignoring %s...\n", string(m.data[0:64]))
 			} else {
@@ -30,7 +30,10 @@ func (p *Player) Parse() {
 			}
 			continue
 		}
-		fmt.Printf("Delay: %s\n", time.Now().Sub(m.timestamp))
+		if err != nil {
+			fmt.Println(err)
+			err = nil
+		}
 	}
 }
 
@@ -40,16 +43,17 @@ func (p *Player) parseInit(m Message) error {
 	var unum int
 	var playMode string
 
-	//TODO: trim ) properly with scan format
-	_, err := fmt.Sscanf(string(m.data), "(init %c %d %s)", &side, &unum, &playMode)
+	_, err := fmt.Sscanf(m.data, "(init %c %d %s", &side, &unum, &playMode)
 	if err != nil {
 		return err
 	}
-	playMode = playMode[0 : len(playMode)-2] // trim out last )
+	playMode = playMode[0 : len(playMode)-1] // trim out last )
 
-	p.teamSide = side
+	p.teamSide = (side == 'r')
 	p.shirtNum = unum
 	p.playMode = playMode
+
+	fmt.Println(m, p.teamSide, p.shirtNum, p.playMode)
 
 	return nil
 }

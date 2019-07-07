@@ -1,6 +1,7 @@
 package playerclient
 
 import (
+	"bytes"
 	"log"
 	"time"
 )
@@ -17,10 +18,10 @@ func (p *Player) Listen() {
 			log.Println(err)
 			continue
 		}
-
+		data := bytes.Trim(response, "\x00")
 		p.cmdChannel <- Message{
 			timestamp: now,
-			data:      response,
+			data:      string(data),
 		}
 	}
 }

@@ -10,7 +10,7 @@ import (
 type Player struct {
 	conn       *net.UDPConn
 	teamName   string
-	teamSide   rune
+	teamSide   SideType
 	shirtNum   int
 	playMode   string
 	cmdChannel chan Message
