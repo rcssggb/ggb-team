@@ -24,4 +24,7 @@ const (
 
 	// PlayerParamMsg is the type for player parameters message
 	PlayerParamMsg
+
+	// ServerParamMsg is the type for server parameters message
+	ServerParamMsg
 )

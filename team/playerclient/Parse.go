@@ -3,6 +3,7 @@ package playerclient
 import (
 	"fmt"
 	"log"
+	"strings"
 )
 
 // Parse continuously receives messages from cmdChannel and parses them to update the player object
@@ -22,12 +23,9 @@ func (p *Player) Parse() {
 			err = p.parseBody(m)
 		case PlayerTypeMsg:
 			err = p.parsePlayerType(m)
+		case ServerParamMsg:
+			err = p.parseServerParam(m)
 		case UnsupportedMsg:
-			if len(m.data) > 64 {
-				fmt.Printf("Ignoring %s...\n", string(m.data[0:64]))
-			} else {
-				fmt.Printf("Ignoring %s\n", string(m.data))
-			}
 			continue
 		}
 		if err != nil {
@@ -53,8 +51,20 @@ func (p *Player) parseInit(m Message) error {
 	p.shirtNum = unum
 	p.playMode = playMode
 
-	fmt.Println(m, p.teamSide, p.shirtNum, p.playMode)
+	return nil
+}
 
+// parseServerParam parses (server_param ...
+func (p *Player) parseServerParam(m Message) error {
+	trimmedMsg := m.data
+	trimmedMsg = strings.TrimPrefix(trimmedMsg, "(server_param ")
+	trimmedMsg = strings.TrimSuffix(trimmedMsg, ")")
+
+	for closeIdx := strings.Index(trimmedMsg, ")"); closeIdx != -1; closeIdx = strings.Index(trimmedMsg, ")") {
+		currParam := trimmedMsg[1:closeIdx]
+		trimmedMsg = trimmedMsg[closeIdx+1 : len(trimmedMsg)-1]
+		log.Println(currParam)
+	}
 	return nil
 }
 
