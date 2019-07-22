@@ -13,7 +13,6 @@ const (
 func (s SideType) String() string {
 	if s {
 		return "right"
-	} else {
-		return "left"
 	}
+	return "left"
 }
