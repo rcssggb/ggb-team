@@ -1,6 +1,7 @@
 package playerclient
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -63,7 +64,14 @@ func (p *Player) parseServerParam(m Message) error {
 	for closeIdx := strings.Index(trimmedMsg, ")"); closeIdx != -1; closeIdx = strings.Index(trimmedMsg, ")") {
 		currParam := trimmedMsg[1:closeIdx]
 		trimmedMsg = trimmedMsg[closeIdx+1 : len(trimmedMsg)-1]
-		log.Println(currParam)
+		splitParam := strings.Split(currParam, " ")
+		if len(splitParam) != 2 {
+			return errors.New("something went wrong with server_param parsing")
+		}
+		paramName := splitParam[0]
+		paramValString := splitParam[1]
+
+		log.Println(paramName, paramValString)
 	}
 	return nil
 }

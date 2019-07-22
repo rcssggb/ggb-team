@@ -8,12 +8,13 @@ import (
 
 // Player ...
 type Player struct {
-	conn       *net.UDPConn
-	teamName   string
-	teamSide   SideType
-	shirtNum   int
-	playMode   string
-	cmdChannel chan Message
+	serverParams ServerParams
+	conn         *net.UDPConn
+	teamName     string
+	teamSide     SideType
+	shirtNum     int
+	playMode     string
+	cmdChannel   chan Message
 }
 
 // IPlayer ...
@@ -39,6 +40,7 @@ func NewPlayer(teamName, serverIP string) (IPlayer, error) {
 	newPlayer.conn = conn
 	newPlayer.teamName = teamName
 	newPlayer.cmdChannel = make(chan Message, 32)
+	newPlayer.serverParams.Init()
 
 	go newPlayer.Listen()
 	go newPlayer.Parse()
