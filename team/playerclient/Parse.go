@@ -83,6 +83,10 @@ func (p *Player) parseSight(m Message) error {
 	log.Print(trimmedMsg)
 	trimmedMsg = strings.TrimPrefix(trimmedMsg, "(see ")
 	trimmedMsg = strings.TrimSuffix(trimmedMsg, ")")
+
+	time := string(trimmedMsg[0])
+	log.Print("see ", time)
+
 	return nil
 }
 
