@@ -79,6 +79,10 @@ func (p *Player) parseServerParam(m Message) error {
 // parseSight parses (see 0 ((f r t) 55.7 3) ...
 func (p *Player) parseSight(m Message) error {
 	// TODO: implement sight parser
+	trimmedMsg := m.data
+	log.Print(trimmedMsg)
+	trimmedMsg = strings.TrimPrefix(trimmedMsg, "(see ")
+	trimmedMsg = strings.TrimSuffix(trimmedMsg, ")")
 	return nil
 }
 
