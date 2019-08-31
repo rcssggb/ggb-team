@@ -80,12 +80,26 @@ func (p *Player) parseServerParam(m Message) error {
 func (p *Player) parseSight(m Message) error {
 	// TODO: implement sight parser
 	trimmedMsg := m.data
-	log.Print(trimmedMsg)
 	trimmedMsg = strings.TrimPrefix(trimmedMsg, "(see ")
 	trimmedMsg = strings.TrimSuffix(trimmedMsg, ")")
 
 	time := string(trimmedMsg[0])
 	log.Print("see ", time)
+
+	trimmedMsg = trimmedMsg[1:]
+
+	for openIdx := strings.Index(trimmedMsg, "(("); openIdx != -1; openIdx = strings.Index(trimmedMsg, "((") {
+		closeIdx := strings.Index(trimmedMsg, ")")
+		objName := trimmedMsg[openIdx+2 : closeIdx]
+		trimmedMsg = trimmedMsg[closeIdx+1 : len(trimmedMsg)]
+
+		closeIdx = strings.Index(trimmedMsg, ")")
+		params := trimmedMsg[:closeIdx]
+		trimmedMsg = trimmedMsg[closeIdx+1 : len(trimmedMsg)]
+
+		log.Println(objName, params)
+
+	}
 
 	return nil
 }
