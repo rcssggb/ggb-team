@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 )
 
@@ -71,7 +72,41 @@ func (p *Player) parseServerParam(m Message) error {
 		paramName := splitParam[0]
 		paramValString := splitParam[1]
 
-		log.Println(paramName, paramValString)
+		paramInterface, ok := p.serverParams[paramName]
+		if !ok {
+			log.Printf("unknown server param named %s\n", paramName)
+			continue
+		}
+
+		switch param := paramInterface.(type) {
+		case float64:
+			paramFloat, err := strconv.ParseFloat(paramValString, 64)
+			if err != nil {
+				log.Printf("error parsing float server param: %s", err)
+				continue
+			}
+			p.serverParams[paramName] = paramFloat
+		case int:
+			paramInt, err := strconv.ParseInt(paramValString, 10, 64)
+			if err != nil {
+				log.Printf("error parsing int server param: %s", err)
+				continue
+			}
+			p.serverParams[paramName] = paramInt
+		case bool:
+			if paramValString == "1" {
+				p.serverParams[paramName] = true
+			} else if paramValString == "0" {
+				p.serverParams[paramName] = false
+			} else {
+				log.Println("unknown bool format in server_param message")
+				continue
+			}
+		case string:
+			p.serverParams[paramName] = paramValString
+		default:
+			log.Printf("conversion not defined for param type %T, leaving default value %s\n", param, param)
+		}
 	}
 	return nil
 }
@@ -98,7 +133,6 @@ func (p *Player) parseSight(m Message) error {
 		trimmedMsg = trimmedMsg[closeIdx+1 : len(trimmedMsg)]
 
 		log.Println(objName, params)
-
 	}
 
 	return nil

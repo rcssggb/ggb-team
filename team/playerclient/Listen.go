@@ -17,10 +17,9 @@ func (p *Player) Listen() {
 			log.Println(err)
 			continue
 		}
-		data := response[:n]
 		p.cmdChannel <- Message{
 			timestamp: now,
-			data:      string(data),
+			data:      string(response[:n]),
 		}
 	}
 }
