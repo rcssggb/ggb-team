@@ -9,6 +9,7 @@ import (
 // Player ...
 type Player struct {
 	serverParams ServerParams
+	sightParams  SightParams
 	conn         *net.UDPConn
 	teamName     string
 	teamSide     SideType
