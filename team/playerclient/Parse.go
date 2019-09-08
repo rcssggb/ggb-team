@@ -119,20 +119,112 @@ func (p *Player) parseSight(m Message) error {
 	trimmedMsg = strings.TrimSuffix(trimmedMsg, ")")
 
 	time := string(trimmedMsg[0])
-	log.Print("see ", time)
 
 	trimmedMsg = trimmedMsg[1:]
 
 	for openIdx := strings.Index(trimmedMsg, "(("); openIdx != -1; openIdx = strings.Index(trimmedMsg, "((") {
 		closeIdx := strings.Index(trimmedMsg, ")")
 		objName := trimmedMsg[openIdx+2 : closeIdx]
-		trimmedMsg = trimmedMsg[closeIdx+1 : len(trimmedMsg)]
+		trimmedMsg = trimmedMsg[closeIdx+2 : len(trimmedMsg)]
 
 		closeIdx = strings.Index(trimmedMsg, ")")
 		params := trimmedMsg[:closeIdx]
 		trimmedMsg = trimmedMsg[closeIdx+1 : len(trimmedMsg)]
 
-		log.Println(objName, params)
+		splitParam := strings.Split(params, " ")
+
+		_, ok := p.sightMap[objName]
+		if !ok {
+			log.Printf("unknown sight field named %s\n", objName)
+			continue
+		}
+		timeInt, err := strconv.ParseInt(time, 10, 64)
+		if err != nil {
+			log.Printf("error parsing int time: %s", err)
+		}
+		p.sightMap[objName].time = timeInt
+
+		switch nData := len(splitParam); nData {
+		case 2:
+			distance, err := strconv.ParseFloat(splitParam[0], 64)
+			if err != nil {
+				log.Printf("error parsing float distance: %s", err)
+				continue
+			}
+			direction, err := strconv.ParseFloat(splitParam[1], 64)
+			if err != nil {
+				log.Printf("error parsing float direction: %s", err)
+				continue
+			}
+			p.sightMap[objName].distance = distance
+			p.sightMap[objName].direction = direction
+
+		case 4:
+			distance, err := strconv.ParseFloat(splitParam[0], 64)
+			if err != nil {
+				log.Printf("error parsing float distance: %s", err)
+				continue
+			}
+			direction, err := strconv.ParseFloat(splitParam[1], 64)
+			if err != nil {
+				log.Printf("error parsing float direction: %s", err)
+				continue
+			}
+			distChng, err := strconv.ParseFloat(splitParam[2], 64)
+			if err != nil {
+				log.Printf("error parsing float distance change: %s", err)
+				continue
+			}
+			dirChng, err := strconv.ParseFloat(splitParam[3], 64)
+			if err != nil {
+				log.Printf("error parsing float direction change: %s", err)
+				continue
+			}
+			p.sightMap[objName].distance = distance
+			p.sightMap[objName].direction = direction
+			p.sightMap[objName].distChng = distChng
+			p.sightMap[objName].dirChng = dirChng
+		case 6:
+			distance, err := strconv.ParseFloat(splitParam[0], 64)
+			if err != nil {
+				log.Printf("error parsing float distance: %s", err)
+				continue
+			}
+			direction, err := strconv.ParseFloat(splitParam[1], 64)
+			if err != nil {
+				log.Printf("error parsing float direction: %s", err)
+				continue
+			}
+			distChng, err := strconv.ParseFloat(splitParam[0], 64)
+			if err != nil {
+				log.Printf("error parsing float distance change: %s", err)
+				continue
+			}
+			dirChng, err := strconv.ParseFloat(splitParam[0], 64)
+			if err != nil {
+				log.Printf("error parsing float direction change: %s", err)
+				continue
+			}
+			bodyDir, err := strconv.ParseFloat(splitParam[0], 64)
+			if err != nil {
+				log.Printf("error parsing float body direction: %s", err)
+				continue
+			}
+			headDir, err := strconv.ParseFloat(splitParam[0], 64)
+			if err != nil {
+				log.Printf("error parsing float head direction: %s", err)
+				continue
+			}
+			p.sightMap[objName].distance = distance
+			p.sightMap[objName].direction = direction
+			p.sightMap[objName].distChng = distChng
+			p.sightMap[objName].dirChng = dirChng
+			p.sightMap[objName].bodyDir = bodyDir
+			p.sightMap[objName].headDir = headDir
+		default:
+			log.Printf("length of sight data for %s must be 2, 4 or 6", objName)
+		}
+
 	}
 
 	return nil

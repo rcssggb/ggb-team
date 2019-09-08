@@ -9,7 +9,7 @@ import (
 // Player ...
 type Player struct {
 	serverParams ServerParams
-	sightParams  SightParams
+	sightMap     SightMap
 	conn         *net.UDPConn
 	teamName     string
 	teamSide     SideType
@@ -42,6 +42,7 @@ func NewPlayer(teamName, serverIP string) (IPlayer, error) {
 	newPlayer.teamName = teamName
 	newPlayer.cmdChannel = make(chan Message, 32)
 	newPlayer.serverParams.Init()
+	newPlayer.sightMap.Init()
 
 	go newPlayer.Listen()
 	go newPlayer.Parse()
