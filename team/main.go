@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/rcssggb/ggb-team/team/playerclient"
+	"./playerclient"
 )
 
 const logPath = "/logs/ggb-team.log"

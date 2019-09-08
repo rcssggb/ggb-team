@@ -185,4 +185,6 @@ func (s *ServerParams) Init() {
 	defaultParams["text_log_dated"] = true
 	defaultParams["text_log_dir"] = "/root/logs"
 	defaultParams["text_log_fixed"] = false
+
+	*s = defaultParams
 }
