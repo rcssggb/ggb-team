@@ -118,9 +118,10 @@ func (p *Player) parseSight(m Message) error {
 	trimmedMsg = strings.TrimPrefix(trimmedMsg, "(see ")
 	trimmedMsg = strings.TrimSuffix(trimmedMsg, ")")
 
-	time := string(trimmedMsg[0])
+	timeIdx := strings.Index(trimmedMsg, " ")
+	time := string(trimmedMsg[0:timeIdx])
 
-	trimmedMsg = trimmedMsg[1:]
+	trimmedMsg = trimmedMsg[timeIdx+1:]
 
 	for openIdx := strings.Index(trimmedMsg, "(("); openIdx != -1; openIdx = strings.Index(trimmedMsg, "((") {
 		closeIdx := strings.Index(trimmedMsg, ")")
