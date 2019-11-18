@@ -1,4 +1,4 @@
-module github.com/rcssggb/ggb-team
+module github.com/rcssggb/ggb-team/team
 
 go 1.12
 
