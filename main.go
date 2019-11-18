@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"./playerclient"
+	playerclient "github.com/rcssggb/ggb-lib/playerclient"
 )
 
 const logPath = "/logs/ggb-team.log"
@@ -17,10 +17,12 @@ func main() {
 
 	hostName := "rcssserver"
 
-	_, err := playerclient.NewPlayer("TeamGGB", hostName)
+	player, err := playerclient.NewPlayerClient("TeamGGB", hostName)
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	_ = player.See()
 
 	time.Sleep(1 * time.Second)
 	return
