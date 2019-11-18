@@ -1,2 +1,6 @@
-github.com/rcssggb/ggb-lib v0.0.0-20191117233926-d5b308d61a7e h1:e0/KOPIIFFuf4W14KT9Mu/HHAmH5pZlIz1xoku0zUzo=
-github.com/rcssggb/ggb-lib v0.0.0-20191117233926-d5b308d61a7e/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
+github.com/rcssggb/ggb-lib v0.0.0-20191118013036-9ec21e1925ee h1:2H76SOOfN3q8/e23DuvsmqxE8lPNGVRPNBdHmCiDkAE=
+github.com/rcssggb/ggb-lib v0.0.0-20191118013036-9ec21e1925ee/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
+github.com/rcssggb/ggb-lib v0.1.0 h1:ACp9ljiywF/l3aDjuEWiZcfz0ffybfg0n6IFcS867ss=
+github.com/rcssggb/ggb-lib v0.1.0/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
+github.com/rcssggb/ggb-lib v0.1.1 h1:/KE6dKZQBE/oPPblXpHZSXVCLeFs6Te95KpqRyOJbFA=
+github.com/rcssggb/ggb-lib v0.1.1/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
