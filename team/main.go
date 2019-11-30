@@ -3,10 +3,8 @@ package main
 import (
 	"flag"
 	"log"
-	"math/rand"
 	"time"
 
-	"github.com/rcssggb/ggb-lib/common/field"
 	playerclient "github.com/rcssggb/ggb-lib/playerclient"
 )
 
@@ -27,17 +25,26 @@ func main() {
 	time.Sleep(1 * time.Second)
 
 	for {
-		visualSensor := player.See()
-		log.Printf("%+v\n", visualSensor)
+		currentTime := player.Time()
 
-		posX := field.MaxX * -rand.Float64()
-		posY := field.MaxY * (2*rand.Float64() - 1)
-
-		player.Move(visualSensor.Time, posX, posY)
+		if currentTime == 0 {
+			player.Move(currentTime, -0.1, 0)
+		} else {
+			if currentTime%2 == 0 {
+				player.Dash(currentTime, 100)
+				player.TurnNeck(currentTime, 45)
+			} else {
+				player.Turn(currentTime, 10)
+				player.TurnNeck(currentTime, -45)
+			}
+		}
 		err = player.Error()
 		if err != nil {
 			log.Println(err)
 		}
-		time.Sleep(100 * time.Millisecond)
+
+		for player.Time() <= currentTime {
+			time.Sleep(10 * time.Millisecond)
+		}
 	}
 }

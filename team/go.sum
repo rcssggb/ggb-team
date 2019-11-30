@@ -4,3 +4,13 @@ github.com/rcssggb/ggb-lib v0.1.0 h1:ACp9ljiywF/l3aDjuEWiZcfz0ffybfg0n6IFcS867ss
 github.com/rcssggb/ggb-lib v0.1.0/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
 github.com/rcssggb/ggb-lib v0.1.1 h1:/KE6dKZQBE/oPPblXpHZSXVCLeFs6Te95KpqRyOJbFA=
 github.com/rcssggb/ggb-lib v0.1.1/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
+github.com/rcssggb/ggb-lib v0.1.2 h1:2wUCdFGqaY8UUJBoGgofB7Bm56Ti/BgWQwuYvwZOVJ0=
+github.com/rcssggb/ggb-lib v0.1.2/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
+github.com/rcssggb/ggb-lib v0.1.3 h1:/6QfofoVIcORbQ+iFBMz922saNI4gP/egcHOSzK1KDw=
+github.com/rcssggb/ggb-lib v0.1.3/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
+github.com/rcssggb/ggb-lib v0.1.4-0.20191130025725-5859ab96c3ba h1:ljOocWBIKsIXlfV/Oe8C8FGzwFc3amF2Q573WtyLr/0=
+github.com/rcssggb/ggb-lib v0.1.4-0.20191130025725-5859ab96c3ba/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
+github.com/rcssggb/ggb-lib v0.1.4 h1:fJTEBxpjn2S+4eKzCuLbEYNR+bZEaVobLSEwN1qq+mA=
+github.com/rcssggb/ggb-lib v0.1.4/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
+github.com/rcssggb/ggb-lib v0.1.5 h1:+poP0wpPrZC61NQc8UNJRfRJnKaaCunhWOAASzb8Hqc=
+github.com/rcssggb/ggb-lib v0.1.5/go.mod h1:MXarJEd8DLjI/9dlBMN/hHIkL2CDq/BeDEmPwxYpQZw=
